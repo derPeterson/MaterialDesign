@@ -1,0 +1,51 @@
+@font-face {
+    font-family: 'Roboto';
+    src: url('Roboto-Regular.ttf');
+}
+
+.root{
+	-fx-font-family: 'Roboto';	
+}
+
+.text {
+    -fx-font-smoothing-type: gray;
+}
+
+.text-header {
+	-fx-font-size: 18px;
+}
+
+.java-button-colored {
+	-fx-background-color: rgb(77,102,204);
+	-fx-text-fill: WHITE;
+}
+
+
+.material-button {
+	-fx-padding: 0.7em 0.57em;
+    -fx-font-size: 14px;
+}
+
+.material-button-flat-colored {
+	-fx-background-color: rgb(77,102,204);
+	-fx-text-fill: WHITE;
+}
+
+
+.material-button-raised {
+	-fx-background-color: WHITE;
+    -fx-button-type: RAISED;
+}
+
+.material-button-raised-colored {
+	-fx-button-type: RAISED;
+	-fx-background-color: rgb(77,102,204);
+    -fx-text-fill: WHITE;
+}
+
+.material-button-custom-rippler-fill {
+	-fx-background-color: rgb(102, 153, 102);
+    -fx-text-fill: WHITE;
+	-fx-button-type: RAISED;
+	-fx-rippler-fill: YELLOW;
+}
