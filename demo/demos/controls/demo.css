@@ -1,10 +1,10 @@
 @font-face {
-    font-family: 'Roboto';
+	font-family: 'Roboto';
     src: url('Roboto-Regular.ttf');
 }
 
 .root{
-	-fx-font-family: 'Roboto';	
+	-fx-font-family: 'Roboto';
 }
 
 .text {
@@ -20,6 +20,15 @@
 	-fx-text-fill: WHITE;
 }
 
+.java-check-box-colored {
+	-fx-text-fill: rgb(77,102,204);
+}
+
+.material-check-box-colored {
+	-fx-text-fill: rgb(229, 57, 53);
+	-fx-unchecked-color: rgb(77,102,204);
+	-fx-checked-color: rgb(229, 57, 53);
+}
 
 .material-button {
 	-fx-padding: 0.7em 0.57em;
@@ -30,7 +39,6 @@
 	-fx-background-color: rgb(77,102,204);
 	-fx-text-fill: WHITE;
 }
-
 
 .material-button-raised {
 	-fx-background-color: WHITE;
