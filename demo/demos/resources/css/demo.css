@@ -1,9 +1,4 @@
-@font-face {
-	font-family: 'Roboto';
-    src: url('Roboto-Regular.ttf');
-}
-
-.root{
+.root {
 	-fx-font-family: 'Roboto';
 }
 
@@ -15,13 +10,16 @@
 	-fx-font-size: 18px;
 }
 
-.java-button-colored {
-	-fx-background-color: rgb(77,102,204);
-	-fx-text-fill: WHITE;
-}
+/******************************************
+ * Button								  *
+ *****************************************/
 
 .java-check-box-colored {
 	-fx-text-fill: rgb(77,102,204);
+}
+
+.material-check-box {
+	-fx-font-weight: bold;
 }
 
 .material-check-box-colored {
@@ -30,7 +28,17 @@
 	-fx-checked-color: rgb(229, 57, 53);
 }
 
+/******************************************
+ * Button								  *
+ *****************************************/
+ 
+.java-button-colored {
+	-fx-background-color: rgb(77,102,204);
+	-fx-text-fill: WHITE;
+}
+
 .material-button {
+	-fx-font-weight: bold;
 	-fx-padding: 0.7em 0.57em;
     -fx-font-size: 14px;
 }

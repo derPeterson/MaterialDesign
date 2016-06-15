@@ -82,8 +82,8 @@ public class MaterialCheckBoxDemo extends Application {
 		BorderPane pane = new BorderPane();
 		pane.setCenter(mainBox);
 		Scene scene = new Scene(pane, 500, 500, true, SceneAntialiasing.BALANCED);
-		
-		scene.getStylesheets().add(MaterialCheckBoxDemo.class.getResource("demo.css").toExternalForm());
+		scene.getStylesheets().add(MaterialCheckBoxDemo.class.getResource("../resources/css/fonts.css").toExternalForm());
+		scene.getStylesheets().add(MaterialCheckBoxDemo.class.getResource("../resources/css/demo.css").toExternalForm());
 		stage.setTitle("MaterialTextField Demonstration");
 		stage.setResizable(true);
 		stage.setScene(scene);
