@@ -8,6 +8,7 @@ import com.sun.javafx.scene.control.skin.ButtonSkin;
 import de.derpeterson.materialdesign.converters.ButtonTypeConverter;
 import de.derpeterson.materialdesign.helper.css.CssHelper;
 import de.derpeterson.materialdesign.helper.css.DefaultPropertyBasedCssMetaData;
+import de.derpeterson.materialdesign.skins.MaterialButtonSkin;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -50,12 +51,6 @@ import javafx.util.Duration;
  */
 public class MaterialButton extends Button {
 
-	private double defaultRadius = 200;
-	private double minRadius = 100;
-	private double rippleRadius = 150;
-	private RippleGenerator rippler;
-	private BorderPane ripplePane;
-	private Timeline shadowAnimation;
 	/**
 	 * {@inheritDoc}
 	 */
@@ -82,162 +77,11 @@ public class MaterialButton extends Button {
 
 	@Override
 	protected Skin<?> createDefaultSkin() {
-		ButtonSkin buttonSkin = (ButtonSkin) getSkin();
-		if (buttonSkin == null) {
-			buttonSkin = new ButtonSkin(this);
-
-			this.ripplePane = new BorderPane();
-			Rectangle rectangle = new Rectangle();
-			rectangle.widthProperty().bind(widthProperty());
-			rectangle.heightProperty().bind(heightProperty());
-			ripplePane.setClip(rectangle);
-
-			ripplePane.getChildren().addAll(getChildren());
-
-			ripplePane.boundsInParentProperty().addListener((o,oldVal,newVal)->{
-				rippleRadius = newVal.getWidth();
-				if(rippleRadius > defaultRadius)
-					rippleRadius = defaultRadius;
-				if(rippleRadius < minRadius)
-					rippleRadius = minRadius;
-			});
-
-			updateButtonType(getButtonType());
-
-			getChildren().add(0, ripplePane);
-			
-			setPickOnBounds(false);
-
-			rippler = new RippleGenerator();
-			addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
-				rippler.setGeneratorCenterX(event.getX());
-				rippler.setGeneratorCenterY(event.getY());
-				rippler.startGeneration();
-
-				if(getButtonType() == ButtonType.RAISED) {	
-					if(shadowAnimation != null) {
-						shadowAnimation.setRate(1);
-						shadowAnimation.play();
-					}
-				}
-			});
-			addEventHandler(MouseEvent.MOUSE_RELEASED, event -> {
-				rippler.stopGeneration();
-
-				if(getButtonType() == ButtonType.RAISED) {	
-					if(shadowAnimation != null) {
-						shadowAnimation.setRate(-1);
-						shadowAnimation.play();
-					}
-				}
-			});
-			
-			buttonTypeProperty().addListener((o, oldVal, newVal) -> { updateButtonType(newVal); });
-			
-			setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, getBackground().getFills().get(0).getRadii(), getBackground().getFills().get(0).getInsets())));
-
-			setSkin(buttonSkin);
-
-		}
-		return buttonSkin;
-	}
-	
-	private void updateButtonType(ButtonType newVal) {
-		switch(newVal) {
-		case RAISED:
-			setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(0,0,0, 0.26), 15, 0.16, 0, 4));
-			
-			this.shadowAnimation = new Timeline(
-					new KeyFrame(Duration.ZERO,
-							new KeyValue(((DropShadow)getEffect()).radiusProperty(), 15,  Interpolator.EASE_BOTH),
-							new KeyValue(((DropShadow)getEffect()).spreadProperty(), 0.16,  Interpolator.EASE_BOTH),
-							new KeyValue(((DropShadow)getEffect()).offsetXProperty(), 0,  Interpolator.EASE_BOTH),
-							new KeyValue(((DropShadow)getEffect()).offsetYProperty(), 4,  Interpolator.EASE_BOTH)),							
-					new KeyFrame(Duration.millis(200),
-							new KeyValue(((DropShadow)getEffect()).radiusProperty(), 30,  Interpolator.EASE_BOTH),
-							new KeyValue(((DropShadow)getEffect()).spreadProperty(), 0.30,  Interpolator.EASE_BOTH),
-							new KeyValue(((DropShadow)getEffect()).offsetXProperty(), 0,  Interpolator.EASE_BOTH),
-							new KeyValue(((DropShadow)getEffect()).offsetYProperty(), 10,  Interpolator.EASE_BOTH)
-							));
-			this.shadowAnimation.setDelay(Duration.seconds(0));
-			break;
-		case FLAT:
-			setEffect(null);
-			this.shadowAnimation = null;
-			break;
-		}
+		return new MaterialButtonSkin(this);
 	}
 
 	private void initialize() {
 		this.getStyleClass().add(DEFAULT_STYLE_CLASS);
-	}
-
-	public class RippleGenerator {
-		private Double generatorCenterX = 0.0;
-		private Double generatorCenterY = 0.0;
-
-		private ObservableList<Ripple> activeRippleList = FXCollections.observableArrayList();
-
-		public class Ripple extends Circle {
-			Timeline inAnimation = new Timeline(
-					new KeyFrame(Duration.millis(300), new KeyValue(radiusProperty(), rippleRadius * 0.7, Interpolator.LINEAR)),
-					new KeyFrame(Duration.millis(50), new KeyValue(opacityProperty(), 1, Interpolator.EASE_BOTH)));
-
-			Timeline outAnimation = new Timeline(
-					new KeyFrame(Duration.millis(400), new KeyValue(radiusProperty(), rippleRadius, Interpolator.LINEAR)),
-					new KeyFrame(Duration.millis(400), new KeyValue(opacityProperty(), 0, Interpolator.EASE_BOTH)));
-
-
-			public Ripple(double centerX, double centerY) {
-				super(centerX, centerY, 0);
-				setOpacity(0.0);
-				setCache(true);
-				setCacheHint(CacheHint.SPEED);
-				setCacheShape(true);
-				setSnapToPixel(false);
-				setStrokeWidth(1.0);
-				Color circleColor = new Color(((Color)getRipplerFill()).getRed(), ((Color)getRipplerFill()).getGreen(), ((Color)getRipplerFill()).getBlue(), 0.5);
-				setFill(circleColor);
-				setStroke(circleColor);
-			}
-
-		}
-
-		public RippleGenerator() {
-		}
-
-		public void stopGeneration() {
-			Ripple ripple = activeRippleList.get(activeRippleList.size() - 1);
-			ripple.outAnimation.setOnFinished(event -> {
-				ripplePane.getChildren().remove(ripple);					
-				ripple.inAnimation.stop();
-				activeRippleList.remove(ripple);
-			});
-			ripple.outAnimation.play();
-		}
-
-		public void startGeneration() {
-			Ripple ripple = new Ripple(generatorCenterX, generatorCenterY);
-			activeRippleList.add(ripple);
-			ripplePane.getChildren().add(0, ripple);
-			ripple.inAnimation.playFromStart();
-		}
-
-		public Double getGeneratorCenterX() {
-			return generatorCenterX;
-		}
-
-		public void setGeneratorCenterX(Double generatorCenterX) {
-			this.generatorCenterX = generatorCenterX;
-		}
-
-		public Double getGeneratorCenterY() {
-			return generatorCenterY;
-		}
-
-		public void setGeneratorCenterY(Double generatorCenterY) {
-			this.generatorCenterY = generatorCenterY;
-		}
 	}
 
 	/***************************************************************************

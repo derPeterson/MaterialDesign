@@ -84,6 +84,8 @@ public class MaterialRippler extends StackPane {
 					rippleRadius = minRadius;
 			});
 			
+			setPickOnBounds(false);
+			
 			addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
 				rippler.setGeneratorCenterX(event.getX());
 				rippler.setGeneratorCenterY(event.getY());
