@@ -119,6 +119,9 @@ public class MaterialNotification {
 					Platform.runLater(new Runnable() {
 						@Override
 						public void run() {
+							fadeAnimation.setOnFinished(event -> {
+								notificationStage.close();
+							});
 							fadeAnimation.setRate(-1.0);
 							fadeAnimation.play();
 						}
