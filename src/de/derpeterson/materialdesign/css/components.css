@@ -1,0 +1,29 @@
+.root {
+	-fx-font-family: 'Roboto';
+}
+
+.text {
+    -fx-font-smoothing-type: gray;
+}
+
+.label {
+	-fx-font-size: 14px;
+}
+
+/******************************************
+ * Button								  *
+ *****************************************/
+
+.material-check-box {
+	-fx-font-weight: bold;
+}
+
+/******************************************
+ * Button								  *
+ *****************************************/
+
+.material-button {
+	-fx-font-weight: bold;
+	-fx-padding: 0.7em 0.57em;
+    -fx-font-size: 14px;
+}

@@ -1,6 +1,7 @@
 package demos.controls;
 
 import de.derpeterson.materialdesign.controls.MaterialButton;
+import de.derpeterson.materialdesign.css.CssResources;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.application.Application;
@@ -117,7 +118,8 @@ public class MaterialButtonDemo extends Application {
 		BorderPane pane = new BorderPane();
 		pane.setCenter(mainBox);
 		Scene scene = new Scene(pane, 500, 500, true, SceneAntialiasing.BALANCED);
-		scene.getStylesheets().add(MaterialButtonDemo.class.getResource("../resources/css/fonts.css").toExternalForm());
+		scene.getStylesheets().add(CssResources.class.getResource("fonts.css").toExternalForm());
+		scene.getStylesheets().add(CssResources.class.getResource("components.css").toExternalForm());
 		scene.getStylesheets().add(MaterialButtonDemo.class.getResource("../resources/css/demo.css").toExternalForm());
 		stage.setTitle("MaterialTextField Demonstration");
 		stage.setResizable(true);
