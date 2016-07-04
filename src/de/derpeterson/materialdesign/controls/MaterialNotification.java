@@ -8,6 +8,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.DefaultProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
@@ -31,7 +32,8 @@ import javafx.stage.Screen;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
-public class MaterialNotification {	
+@DefaultProperty(value="control")
+public class MaterialNotification extends BorderPane {	
 	
 	private static final double maxWidth = 500;
 	private static final double minWidth = 360;
@@ -42,55 +44,51 @@ public class MaterialNotification {
 		notificationStage.setResizable(false);
 		notificationStage.setAlwaysOnTop(true);
 		
-		BorderPane notificationPane = new BorderPane();	
-		notificationPane.setBackground(new Background(new BackgroundFill(Color.valueOf("#212121"), CornerRadii.EMPTY, new Insets(0))));
-		notificationPane.setBorder(new Border(new BorderStroke(Color.valueOf("#424242"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1))));
-		notificationPane.setMaxWidth(MaterialNotification.maxWidth);
-		notificationPane.setMinWidth(MaterialNotification.minWidth);
-		notificationPane.setMinHeight(MaterialNotification.minHeight);
+		getStyleClass().add(DEFAULT_STYLE_CLASS);
+		setMaxWidth(MaterialNotification.maxWidth);
+		setMinWidth(MaterialNotification.minWidth);
+		setMinHeight(MaterialNotification.minHeight);
 		
 		HBox leftBox = new HBox();
-		leftBox.setAlignment(Pos.TOP_CENTER);
-		leftBox.setPadding(new Insets(12, 15, 0, 15));
+		leftBox.getStyleClass().add(DEFAULT_IMAGE_CONTAINER_STYLE_CLASS);
 		ImageView notificationImage = new ImageView(new Image(ImageResources.class.getResource("info_36.png").toExternalForm()));
 		leftBox.getChildren().add(notificationImage);
 		
-		notificationPane.setLeft(leftBox);
+		setLeft(leftBox);
 		
 		VBox bodyBox = new VBox();
 		bodyBox.setAlignment(Pos.CENTER_LEFT);
-		Label headerLabel = new Label("YourProgramm is Running!");
-		headerLabel.setStyle("-fx-font-weight: bold;-fx-text-fill: WHITE;");
+		Label headerLabel = new Label();
+		headerLabel.getStyleClass().add(DEFAULT_HEADER_LABEL_STYLE_CLASS);
 		headerLabel.setWrapText(true);
 		bodyBox.getChildren().add(headerLabel);
 		
-		Label bodyLabel = new Label("YourProgramm Started");
-		bodyLabel.setStyle("-fx-text-fill: #9E9E9E;");
+		Label bodyLabel = new Label();
+		bodyLabel.getStyleClass().add(DEFAULT_BODY_LABEL_STYLE_CLASS);
 		bodyLabel.setWrapText(true);
 		bodyBox.getChildren().add(bodyLabel);
 		
-		notificationPane.setCenter(bodyBox);
+		setCenter(bodyBox);
 		
 		VBox rightBox = new VBox();
 		rightBox.setPadding(new Insets(2));
 		MaterialButton closeButton = new MaterialButton();
+		closeButton.getStyleClass().add(DEFAULT_CLOSE_BUTTON_STYLE_CLASS);
 		closeButton.setGraphic(new ImageView(new Image(ImageResources.class.getResource("close_16.png").toExternalForm())));
-		closeButton.setStyle("-fx-padding: 5px;");
-		closeButton.setRipplerFill(Color.WHITE);
 		rightBox.getChildren().add(closeButton);
 		
-		notificationPane.setRight(rightBox);
+		setRight(rightBox);
 
-		Scene notificationScene = new Scene(notificationPane);
+		Scene notificationScene = new Scene(this);
 		notificationScene.getStylesheets().add(CssResources.class.getResource("fonts.css").toExternalForm());
 		notificationScene.getStylesheets().add(CssResources.class.getResource("components.css").toExternalForm());
 		notificationStage.setScene(notificationScene);
 		
 		Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-		notificationStage.setX(screenBounds.getMaxX() - notificationPane.getWidth());
-		notificationStage.setY(screenBounds.getMaxY() - notificationPane.getHeight());
+		notificationStage.setX(screenBounds.getMaxX() - getWidth());
+		notificationStage.setY(screenBounds.getMaxY() - getHeight());
 		
-		notificationPane.layoutBoundsProperty().addListener((o, oldVal, newVal) -> { 
+		layoutBoundsProperty().addListener((o, oldVal, newVal) -> { 
 			notificationStage.setX(screenBounds.getMaxX() - newVal.getWidth());
 			notificationStage.setY(screenBounds.getMaxY() - newVal.getHeight());
 			});
@@ -133,4 +131,10 @@ public class MaterialNotification {
 		fadeAnimation.setRate(1.0);
 		fadeAnimation.play();
 	}
+	
+	private final static String DEFAULT_STYLE_CLASS = "material-notification";
+	private final static String DEFAULT_IMAGE_CONTAINER_STYLE_CLASS = "material-notification-image-container";
+	private final static String DEFAULT_HEADER_LABEL_STYLE_CLASS = "material-notification-header-label";
+	private final static String DEFAULT_BODY_LABEL_STYLE_CLASS = "material-notification-body-label";
+	private final static String DEFAULT_CLOSE_BUTTON_STYLE_CLASS = "material-notification-close-button";
 }

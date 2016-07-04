@@ -11,7 +11,7 @@
 }
 
 /******************************************
- * Button								  *
+ * CheckBox								  *
  *****************************************/
 
 .material-check-box {
@@ -26,4 +26,33 @@
 	-fx-font-weight: bold;
 	-fx-padding: 0.7em 0.57em;
     -fx-font-size: 14px;
+}
+
+/******************************************
+ * Notification							  *
+ *****************************************/
+.material-notification {
+ 	-fx-background-color: #212121;
+ 	-fx-border-color: #424242;
+ 	-fx-border-style: solid;
+ 	-fx-border-width: 1px;
+ }
+ 
+.material-notification-image-container {
+	-fx-alignment: top-center;
+ 	-fx-padding: 12, 15, 0, 15;
+}
+
+.material-notification-header-label {
+	-fx-font-weight: bold;
+	-fx-text-fill: WHITE;
+}
+
+.material-notification-body-label {
+	-fx-text-fill: #9E9E9E;
+}
+
+.material-notification-close-button {
+	-fx-padding: 5px;
+	-fx-rippler-fill: WHITE;
 }
