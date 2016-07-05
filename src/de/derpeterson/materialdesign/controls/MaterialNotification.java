@@ -1,45 +1,62 @@
 package de.derpeterson.materialdesign.controls;
 
+import java.util.List;
+
+import com.sun.javafx.css.converters.PaintConverter;
+
+import de.derpeterson.materialdesign.converters.NotificationTypeConverter;
 import de.derpeterson.materialdesign.css.CssResources;
+import de.derpeterson.materialdesign.helper.css.CssHelper;
+import de.derpeterson.materialdesign.helper.css.DefaultPropertyBasedCssMetaData;
 import de.derpeterson.materialdesign.images.ImageResources;
-import demos.controls.MaterialNotificationDemo;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.DefaultProperty;
+import javafx.css.CssMetaData;
+import javafx.css.SimpleStyleableObjectProperty;
+import javafx.css.Styleable;
+import javafx.css.StyleableObjectProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.Screen;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 @DefaultProperty(value="control")
-public class MaterialNotification extends BorderPane {	
+public class MaterialNotification extends BorderPane {
+	
+	public enum NotificationType { INFO , CUSTOM};
 	
 	private static final double maxWidth = 500;
 	private static final double minWidth = 360;
 	private static final double minHeight = 60;
 	
 	public MaterialNotification() {
+		this("", "", NotificationType.CUSTOM);
+	}
+	
+	public MaterialNotification(NotificationType notificationType) {
+		this("", "", notificationType);		
+	}
+	
+	public MaterialNotification(String title, String body, NotificationType notificationType) {
+		setNotificationType(notificationType);
+		initialize();		
+	}
+	private void initialize() {
 		Stage notificationStage = new Stage(StageStyle.UNDECORATED);
 		notificationStage.setResizable(false);
 		notificationStage.setAlwaysOnTop(true);
@@ -57,6 +74,7 @@ public class MaterialNotification extends BorderPane {
 		setLeft(leftBox);
 		
 		VBox bodyBox = new VBox();
+		bodyBox.setPadding(new Insets(8 ,0, 8, 0));
 		bodyBox.setAlignment(Pos.CENTER_LEFT);
 		Label headerLabel = new Label();
 		headerLabel.getStyleClass().add(DEFAULT_HEADER_LABEL_STYLE_CLASS);
@@ -71,7 +89,7 @@ public class MaterialNotification extends BorderPane {
 		setCenter(bodyBox);
 		
 		VBox rightBox = new VBox();
-		rightBox.setPadding(new Insets(2));
+		rightBox.getStyleClass().add(DEFAULT_CLOSE_CONTAINER_STYLE_CLASS);
 		MaterialButton closeButton = new MaterialButton();
 		closeButton.getStyleClass().add(DEFAULT_CLOSE_BUTTON_STYLE_CLASS);
 		closeButton.setGraphic(new ImageView(new Image(ImageResources.class.getResource("close_16.png").toExternalForm())));
@@ -104,7 +122,7 @@ public class MaterialNotification extends BorderPane {
 			fadeAnimation.setRate(-1.0);
 			fadeAnimation.play();
 		});
-        
+		
 		notificationStage.show();
 		
 		new Thread() {
@@ -133,8 +151,39 @@ public class MaterialNotification extends BorderPane {
 	}
 	
 	private final static String DEFAULT_STYLE_CLASS = "material-notification";
-	private final static String DEFAULT_IMAGE_CONTAINER_STYLE_CLASS = "material-notification-image-container";
-	private final static String DEFAULT_HEADER_LABEL_STYLE_CLASS = "material-notification-header-label";
-	private final static String DEFAULT_BODY_LABEL_STYLE_CLASS = "material-notification-body-label";
-	private final static String DEFAULT_CLOSE_BUTTON_STYLE_CLASS = "material-notification-close-button";
+	private final static String DEFAULT_IMAGE_CONTAINER_STYLE_CLASS = "iconContainer";
+	private final static String DEFAULT_CLOSE_CONTAINER_STYLE_CLASS = "closeContainer";
+	private final static String DEFAULT_HEADER_LABEL_STYLE_CLASS = "headerLabel";
+	private final static String DEFAULT_BODY_LABEL_STYLE_CLASS = "bodyLabel";
+	private final static String DEFAULT_CLOSE_BUTTON_STYLE_CLASS = "closeButton";
+	
+	private StyleableObjectProperty<NotificationType> notificationType = new SimpleStyleableObjectProperty<NotificationType>(
+			StyleableProperties.NOTIFICATION_TYPE, MaterialNotification.this, "notificationType", NotificationType.CUSTOM);
+
+	public StyleableObjectProperty<NotificationType> notificationTypeProperty() {
+		return notificationType;
+	}
+
+	public NotificationType getNotificationType() {
+		return notificationTypeProperty().get();
+	}
+
+	public void setNotificationType(NotificationType notificationType) {
+		notificationTypeProperty().setValue(notificationType);
+	}
+	
+	private static class StyleableProperties {
+		private static final DefaultPropertyBasedCssMetaData<MaterialNotification, NotificationType> NOTIFICATION_TYPE = CssHelper
+				.createMetaData("-fx-notification-type", NotificationTypeConverter.getInstance(), "notificationType", NotificationType.CUSTOM);
+		private static final List<CssMetaData<? extends Styleable, ?>> STYLEABLES = CssHelper
+				.createCssMetaDataList(Button.getClassCssMetaData(), NOTIFICATION_TYPE);
+	}
+
+	public List<CssMetaData<? extends Styleable, ?>> getControlCssMetaData() {
+		return getClassCssMetaData();
+	}
+
+	public static List<CssMetaData<? extends Styleable, ?>> getClassCssMetaData() {
+		return StyleableProperties.STYLEABLES;
+	}
 }

@@ -3,6 +3,7 @@ package demos.controls;
 
 import de.derpeterson.materialdesign.controls.MaterialButton;
 import de.derpeterson.materialdesign.controls.MaterialNotification;
+import de.derpeterson.materialdesign.controls.MaterialNotification.NotificationType;
 import de.derpeterson.materialdesign.css.CssResources;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -27,7 +28,7 @@ public class MaterialNotificationDemo extends Application {
 		MaterialButton buttonNotification = new MaterialButton("Click!");
 		buttonNotification.getStyleClass().add("material-button-flat-colored");
 		buttonNotification.setOnMouseClicked(e -> {
-			new MaterialNotification();
+			new MaterialNotification(NotificationType.INFO);
 		});
 		mainBox.getChildren().add(buttonNotification);		
 		
