@@ -37,126 +37,186 @@ import javafx.util.Duration;
 
 @DefaultProperty(value="control")
 public class MaterialNotification extends BorderPane {
-	
-	public enum NotificationType { INFO , CUSTOM};
-	
+
+	public enum NotificationType { INFO, WARNING, CUSTOM};
+
 	private static final double maxWidth = 500;
 	private static final double minWidth = 360;
 	private static final double minHeight = 60;
-	
+
+	private ImageView imageIcon;
+
+	private Label headerLabel;
+	private Label bodyLabel;
+
+	private MaterialButton closeButton;
+	private Stage stage;
+	private Timeline fadeAnimation;
+
 	public MaterialNotification() {
-		this("", "", NotificationType.CUSTOM);
+		this(NotificationType.CUSTOM, "", "");
 	}
-	
+
 	public MaterialNotification(NotificationType notificationType) {
-		this("", "", notificationType);		
+		this(notificationType, "", "");		
 	}
-	
-	public MaterialNotification(String title, String body, NotificationType notificationType) {
-		setNotificationType(notificationType);
-		initialize();		
+
+	public MaterialNotification(NotificationType notificationType, String title, String message) {
+		initialize(notificationType, title, message);
 	}
-	private void initialize() {
-		Stage notificationStage = new Stage(StageStyle.UNDECORATED);
-		notificationStage.setResizable(false);
-		notificationStage.setAlwaysOnTop(true);
-		
+
+	private void initialize(NotificationType notificationType, String title, String message) {
 		getStyleClass().add(DEFAULT_STYLE_CLASS);
+
 		setMaxWidth(MaterialNotification.maxWidth);
 		setMinWidth(MaterialNotification.minWidth);
 		setMinHeight(MaterialNotification.minHeight);
-		
+
 		HBox leftBox = new HBox();
 		leftBox.getStyleClass().add(DEFAULT_IMAGE_CONTAINER_STYLE_CLASS);
-		ImageView notificationImage = new ImageView(new Image(ImageResources.class.getResource("info_36.png").toExternalForm()));
-		leftBox.getChildren().add(notificationImage);
-		
+		this.imageIcon = new ImageView(getNotificationImage(notificationType));
+		leftBox.getChildren().add(imageIcon);
+
 		setLeft(leftBox);
-		
+
 		VBox bodyBox = new VBox();
 		bodyBox.setPadding(new Insets(8 ,0, 8, 0));
 		bodyBox.setAlignment(Pos.CENTER_LEFT);
-		Label headerLabel = new Label();
+		this.headerLabel = new Label(title);
 		headerLabel.getStyleClass().add(DEFAULT_HEADER_LABEL_STYLE_CLASS);
 		headerLabel.setWrapText(true);
 		bodyBox.getChildren().add(headerLabel);
-		
-		Label bodyLabel = new Label();
+
+		this.bodyLabel = new Label(message);
 		bodyLabel.getStyleClass().add(DEFAULT_BODY_LABEL_STYLE_CLASS);
 		bodyLabel.setWrapText(true);
 		bodyBox.getChildren().add(bodyLabel);
-		
+
 		setCenter(bodyBox);
-		
+
 		VBox rightBox = new VBox();
 		rightBox.getStyleClass().add(DEFAULT_CLOSE_CONTAINER_STYLE_CLASS);
-		MaterialButton closeButton = new MaterialButton();
+		this.closeButton = new MaterialButton();
 		closeButton.getStyleClass().add(DEFAULT_CLOSE_BUTTON_STYLE_CLASS);
 		closeButton.setGraphic(new ImageView(new Image(ImageResources.class.getResource("close_16.png").toExternalForm())));
 		rightBox.getChildren().add(closeButton);
-		
+
 		setRight(rightBox);
+
+		initStage();
+		initAnimations();
+	}
+	
+	private Image getNotificationImage(NotificationType notificationType) {
+		switch(notificationType) {
+			case INFO:
+				return new Image(ImageResources.class.getResource("info_36.png").toExternalForm());
+			case WARNING:
+				return new Image(ImageResources.class.getResource("warning_36.png").toExternalForm());
+			case CUSTOM:
+				return null;
+		}
+		return null;
+	}
+
+	private void initStage() {
+		this.stage = new Stage(StageStyle.UNDECORATED);
+		stage.setResizable(false);
+		stage.setAlwaysOnTop(true);
 
 		Scene notificationScene = new Scene(this);
 		notificationScene.getStylesheets().add(CssResources.class.getResource("fonts.css").toExternalForm());
 		notificationScene.getStylesheets().add(CssResources.class.getResource("components.css").toExternalForm());
-		notificationStage.setScene(notificationScene);
-		
+		stage.setScene(notificationScene);
+
 		Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-		notificationStage.setX(screenBounds.getMaxX() - getWidth());
-		notificationStage.setY(screenBounds.getMaxY() - getHeight());
-		
+		stage.setX(screenBounds.getMaxX() - getWidth());
+		stage.setY(screenBounds.getMaxY() - getHeight());
+
 		layoutBoundsProperty().addListener((o, oldVal, newVal) -> { 
-			notificationStage.setX(screenBounds.getMaxX() - newVal.getWidth());
-			notificationStage.setY(screenBounds.getMaxY() - newVal.getHeight());
-			});
-		
-		notificationStage.setOpacity(0.0);
-		Timeline fadeAnimation = new Timeline(new KeyFrame(Duration.ZERO, new KeyValue(notificationStage.opacityProperty(), 0.0, Interpolator.LINEAR)),
-				new KeyFrame(Duration.millis(1000), new KeyValue(notificationStage.opacityProperty(), 1.0, Interpolator.LINEAR)));
-		
+			stage.setX(screenBounds.getMaxX() - newVal.getWidth());
+			stage.setY(screenBounds.getMaxY() - newVal.getHeight());
+		});
+
+		stage.setOpacity(0.0);
+	}
+
+	private void initAnimations() {
+		this.fadeAnimation = new Timeline(new KeyFrame(Duration.ZERO, new KeyValue(stage.opacityProperty(), 0.0, Interpolator.LINEAR)),
+				new KeyFrame(Duration.millis(1000), new KeyValue(stage.opacityProperty(), 1.0, Interpolator.LINEAR)));
+
 		closeButton.setOnMouseClicked(e -> {
 			fadeAnimation.setOnFinished(event -> {
-				notificationStage.close();
+				stage.close();
 			});
 			fadeAnimation.setRate(-1.0);
 			fadeAnimation.play();
 		});
-		
-		notificationStage.show();
-		
-		new Thread() {
-            public void run() {
-            	try {
-                	Thread.sleep(5000);
-            	} catch (InterruptedException e) {
-					e.printStackTrace();
-				} finally {
-					Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-							fadeAnimation.setOnFinished(event -> {
-								notificationStage.close();
-							});
-							fadeAnimation.setRate(-1.0);
-							fadeAnimation.play();
-						}
-					});
-            	}                
-            }
-        }.start();
-		
-		fadeAnimation.setRate(1.0);
-		fadeAnimation.play();
 	}
-	
+
+
+	public void setTitle(String title) {
+		headerLabel.setText(title);
+	}
+
+	public String getTitle() {
+		return headerLabel.getText();
+	}
+
+	public void setMessage(String message) {
+		bodyLabel.setText(message);
+	}
+
+	public String getMessage() {
+		return bodyLabel.getText();
+	}
+
+	public void showAndWait() {
+		showAndDismiss(Duration.UNKNOWN);
+	}
+
+	public void showAndDismiss(Duration dismissDelay) {        
+		if(!stage.isShowing()) {
+			stage.show();
+
+			if(dismissDelay != Duration.UNKNOWN) {
+				fadeAnimation.setOnFinished(e -> {
+					new Thread() {
+						public void run() {
+							try {
+								Thread.sleep(new Double(dismissDelay.toMillis()).longValue());
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							} finally {
+								Platform.runLater(new Runnable() {
+									@Override
+									public void run() {
+										fadeAnimation.setOnFinished(event -> {
+											stage.close();
+										});
+										fadeAnimation.setRate(-1.0);
+										fadeAnimation.play();
+									}
+								});
+							}                
+						}
+					}.start();
+				});
+			}
+
+
+			fadeAnimation.setRate(1.0);
+			fadeAnimation.play();
+		}
+	}
+
 	private final static String DEFAULT_STYLE_CLASS = "material-notification";
 	private final static String DEFAULT_IMAGE_CONTAINER_STYLE_CLASS = "iconContainer";
 	private final static String DEFAULT_CLOSE_CONTAINER_STYLE_CLASS = "closeContainer";
 	private final static String DEFAULT_HEADER_LABEL_STYLE_CLASS = "headerLabel";
 	private final static String DEFAULT_BODY_LABEL_STYLE_CLASS = "bodyLabel";
 	private final static String DEFAULT_CLOSE_BUTTON_STYLE_CLASS = "closeButton";
-	
+
 	private StyleableObjectProperty<NotificationType> notificationType = new SimpleStyleableObjectProperty<NotificationType>(
 			StyleableProperties.NOTIFICATION_TYPE, MaterialNotification.this, "notificationType", NotificationType.CUSTOM);
 
@@ -171,7 +231,7 @@ public class MaterialNotification extends BorderPane {
 	public void setNotificationType(NotificationType notificationType) {
 		notificationTypeProperty().setValue(notificationType);
 	}
-	
+
 	private static class StyleableProperties {
 		private static final DefaultPropertyBasedCssMetaData<MaterialNotification, NotificationType> NOTIFICATION_TYPE = CssHelper
 				.createMetaData("-fx-notification-type", NotificationTypeConverter.getInstance(), "notificationType", NotificationType.CUSTOM);

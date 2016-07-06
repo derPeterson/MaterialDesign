@@ -1,6 +1,5 @@
 package demos.controls;
 
-
 import de.derpeterson.materialdesign.controls.MaterialButton;
 import de.derpeterson.materialdesign.controls.MaterialNotification;
 import de.derpeterson.materialdesign.controls.MaterialNotification.NotificationType;
@@ -12,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class MaterialNotificationDemo extends Application {
 
@@ -28,7 +28,11 @@ public class MaterialNotificationDemo extends Application {
 		MaterialButton buttonNotification = new MaterialButton("Click!");
 		buttonNotification.getStyleClass().add("material-button-flat-colored");
 		buttonNotification.setOnMouseClicked(e -> {
-			new MaterialNotification(NotificationType.INFO);
+			MaterialNotification materialNotification = new MaterialNotification(NotificationType.WARNING);
+			materialNotification.setTitle("YourProgramm is Running!");
+			materialNotification.setMessage("YourProgramm Started");
+			materialNotification.showAndDismiss(Duration.seconds(5));
+		
 		});
 		mainBox.getChildren().add(buttonNotification);		
 		
