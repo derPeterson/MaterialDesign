@@ -38,7 +38,7 @@ import javafx.util.Duration;
 @DefaultProperty(value="control")
 public class MaterialNotification extends BorderPane {
 
-	public enum NotificationType { INFO, WARNING, CUSTOM};
+	public enum NotificationType { INFO, WARNING, ERROR, CUSTOM};
 
 	private static final double maxWidth = 500;
 	private static final double minWidth = 360;
@@ -113,8 +113,10 @@ public class MaterialNotification extends BorderPane {
 				return new Image(ImageResources.class.getResource("info_36.png").toExternalForm());
 			case WARNING:
 				return new Image(ImageResources.class.getResource("warning_36.png").toExternalForm());
+			case ERROR:
+				return new Image(ImageResources.class.getResource("error_36.png").toExternalForm());
 			case CUSTOM:
-				return null;
+				return getImage();
 		}
 		return null;
 	}
@@ -154,21 +156,28 @@ public class MaterialNotification extends BorderPane {
 		});
 	}
 
-
 	public void setTitle(String title) {
-		headerLabel.setText(title);
+		if(headerLabel != null) headerLabel.setText(title);
 	}
 
 	public String getTitle() {
-		return headerLabel.getText();
+		return headerLabel != null ? headerLabel.getText() : null;
+	}
+	
+	public void setImage(Image image) {
+		if(imageIcon != null) imageIcon.setImage(image);
+	}
+
+	public Image getImage() {
+		return imageIcon != null ? imageIcon.getImage() : null;
 	}
 
 	public void setMessage(String message) {
-		bodyLabel.setText(message);
+		if(bodyLabel != null) bodyLabel.setText(message);
 	}
 
 	public String getMessage() {
-		return bodyLabel.getText();
+		return bodyLabel != null ? bodyLabel.getText() : null;
 	}
 
 	public void showAndWait() {

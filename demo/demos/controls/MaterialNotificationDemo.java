@@ -7,6 +7,8 @@ import de.derpeterson.materialdesign.css.CssResources;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -28,14 +30,14 @@ public class MaterialNotificationDemo extends Application {
 		MaterialButton buttonNotification = new MaterialButton("Click!");
 		buttonNotification.getStyleClass().add("material-button-flat-colored");
 		buttonNotification.setOnMouseClicked(e -> {
-			MaterialNotification materialNotification = new MaterialNotification(NotificationType.WARNING);
-			materialNotification.setTitle("YourProgramm is Running!");
-			materialNotification.setMessage("YourProgramm Started");
+			MaterialNotification materialNotification = new MaterialNotification(NotificationType.CUSTOM);
+			materialNotification.setTitle("Max Mustermann");
+			materialNotification.setMessage("Testing a custom notification\nGood or not?");
+			materialNotification.setImage(new Image(MaterialNotificationDemo.class.getResource("../resources/images/logo_gmail_48.png").toExternalForm()));
 			materialNotification.showAndDismiss(Duration.seconds(5));
 		
 		});
 		mainBox.getChildren().add(buttonNotification);		
-		
 		BorderPane pane = new BorderPane();
 		pane.setCenter(mainBox);
 		Scene scene = new Scene(pane, 500, 500);
