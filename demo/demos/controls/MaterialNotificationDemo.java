@@ -27,17 +27,54 @@ public class MaterialNotificationDemo extends Application {
 		materialNotificationText.getStyleClass().add("text-header");		
 		mainBox.getChildren().add(materialNotificationText);	
 		
-		MaterialButton buttonNotification = new MaterialButton("Click!");
-		buttonNotification.getStyleClass().add("material-button-flat-colored");
-		buttonNotification.setOnMouseClicked(e -> {
+		MaterialButton buttonInfoNotification = new MaterialButton("Info");
+		buttonInfoNotification.getStyleClass().add("material-button-flat-colored");
+		buttonInfoNotification.setOnMouseClicked(e -> {
+			MaterialNotification materialNotification = new MaterialNotification(NotificationType.INFO);
+			materialNotification.setTitle("Information..");
+			materialNotification.setMessage("Just a little information...");
+			materialNotification.showAndDismiss(Duration.seconds(5));
+		
+		});
+		buttonInfoNotification.setStyle("-fx-pref-width: 80px;");
+		mainBox.getChildren().add(buttonInfoNotification);		
+		
+		MaterialButton buttonWarningNotification = new MaterialButton("Warning");
+		buttonWarningNotification.getStyleClass().add("material-button-flat-colored");
+		buttonWarningNotification.setOnMouseClicked(e -> {
+			MaterialNotification materialNotification = new MaterialNotification(NotificationType.WARNING);
+			materialNotification.setTitle("Warning..");
+			materialNotification.setMessage("A little warning...");
+			materialNotification.showAndDismiss(Duration.seconds(5));
+		
+		});
+		buttonWarningNotification.setStyle("-fx-pref-width: 80px;");
+		mainBox.getChildren().add(buttonWarningNotification);		
+		
+		MaterialButton buttonErrorNotification = new MaterialButton("Error");
+		buttonErrorNotification.getStyleClass().add("material-button-flat-colored");
+		buttonErrorNotification.setOnMouseClicked(e -> {
+			MaterialNotification materialNotification = new MaterialNotification(NotificationType.ERROR);
+			materialNotification.setTitle("Error..");
+			materialNotification.setMessage("Something has gone wrong!");
+			materialNotification.showAndDismiss(Duration.seconds(5));
+		
+		});
+		buttonErrorNotification.setStyle("-fx-pref-width: 80px;");
+		mainBox.getChildren().add(buttonErrorNotification);		
+		
+		MaterialButton buttonCustomNotification = new MaterialButton("Custom");
+		buttonCustomNotification.getStyleClass().add("material-button-flat-colored");
+		buttonCustomNotification.setOnMouseClicked(e -> {
 			MaterialNotification materialNotification = new MaterialNotification(NotificationType.CUSTOM);
 			materialNotification.setTitle("Max Mustermann");
 			materialNotification.setMessage("Testing a custom notification\nGood or not?");
 			materialNotification.setImage(new Image(MaterialNotificationDemo.class.getResource("../resources/images/logo_gmail_48.png").toExternalForm()));
 			materialNotification.showAndDismiss(Duration.seconds(5));
-		
 		});
-		mainBox.getChildren().add(buttonNotification);		
+		buttonCustomNotification.setStyle("-fx-pref-width: 80px;");
+		mainBox.getChildren().add(buttonCustomNotification);
+		
 		BorderPane pane = new BorderPane();
 		pane.setCenter(mainBox);
 		Scene scene = new Scene(pane, 500, 500);
