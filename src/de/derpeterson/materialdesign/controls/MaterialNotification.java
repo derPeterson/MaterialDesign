@@ -38,7 +38,7 @@ import javafx.util.Duration;
 @DefaultProperty(value="control")
 public class MaterialNotification extends BorderPane {
 
-	public enum NotificationType { INFO, WARNING, ERROR, CUSTOM};
+	public enum NotificationType { INFO, SUCCESS, WARNING, ERROR, CUSTOM};
 
 	private static final double maxWidth = 500;
 	private static final double minWidth = 360;
@@ -111,6 +111,8 @@ public class MaterialNotification extends BorderPane {
 		switch(notificationType) {
 			case INFO:
 				return new Image(ImageResources.class.getResource("info_36.png").toExternalForm());
+			case SUCCESS:
+				return new Image(ImageResources.class.getResource("success_36.png").toExternalForm());
 			case WARNING:
 				return new Image(ImageResources.class.getResource("warning_36.png").toExternalForm());
 			case ERROR:

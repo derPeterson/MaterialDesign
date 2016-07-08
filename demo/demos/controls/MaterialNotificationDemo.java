@@ -37,7 +37,19 @@ public class MaterialNotificationDemo extends Application {
 		
 		});
 		buttonInfoNotification.setStyle("-fx-pref-width: 80px;");
-		mainBox.getChildren().add(buttonInfoNotification);		
+		mainBox.getChildren().add(buttonInfoNotification);
+		
+		MaterialButton buttonSuccessNotification = new MaterialButton("Success");
+		buttonSuccessNotification.getStyleClass().add("material-button-flat-colored");
+		buttonSuccessNotification.setOnMouseClicked(e -> {
+			MaterialNotification materialNotification = new MaterialNotification(NotificationType.SUCCESS);
+			materialNotification.setTitle("Success..");
+			materialNotification.setMessage("Everything is good!");
+			materialNotification.showAndDismiss(Duration.seconds(5));
+		
+		});
+		buttonSuccessNotification.setStyle("-fx-pref-width: 80px;");
+		mainBox.getChildren().add(buttonSuccessNotification);		
 		
 		MaterialButton buttonWarningNotification = new MaterialButton("Warning");
 		buttonWarningNotification.getStyleClass().add("material-button-flat-colored");
