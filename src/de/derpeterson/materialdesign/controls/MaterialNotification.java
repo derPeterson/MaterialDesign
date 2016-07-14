@@ -1,6 +1,8 @@
 package de.derpeterson.materialdesign.controls;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.sun.javafx.css.converters.PaintConverter;
 
@@ -19,7 +21,9 @@ import javafx.css.CssMetaData;
 import javafx.css.SimpleStyleableObjectProperty;
 import javafx.css.Styleable;
 import javafx.css.StyleableObjectProperty;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -27,9 +31,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.stage.Screen;
 import javafx.stage.StageStyle;
@@ -47,11 +61,14 @@ public class MaterialNotification extends BorderPane {
 	private ImageView imageIcon;
 
 	private Label headerLabel;
-	private Label bodyLabel;
 
 	private MaterialButton closeButton;
 	private Stage stage;
 	private Timeline fadeAnimation;
+	
+	private VBox completeBodyBox;
+	private VBox bodyTextBox;
+	private FlowPane flowPane;
 
 	public MaterialNotification() {
 		this(NotificationType.CUSTOM, "", "");
@@ -75,24 +92,28 @@ public class MaterialNotification extends BorderPane {
 		HBox leftBox = new HBox();
 		leftBox.getStyleClass().add(DEFAULT_IMAGE_CONTAINER_STYLE_CLASS);
 		this.imageIcon = new ImageView(getNotificationImage(notificationType));
-		leftBox.getChildren().add(imageIcon);
+		leftBox.getChildren().add(this.imageIcon);
 
 		setLeft(leftBox);
 
-		VBox bodyBox = new VBox();
-		bodyBox.setPadding(new Insets(8 ,0, 8, 0));
-		bodyBox.setAlignment(Pos.CENTER_LEFT);
+		this.completeBodyBox = new VBox();
+		this.completeBodyBox.setPadding(new Insets(8, 0, 8, 0));
+		this.completeBodyBox.setAlignment(Pos.CENTER_LEFT);
+		
+		HBox bodyTitleBox = new HBox();
 		this.headerLabel = new Label(title);
-		headerLabel.getStyleClass().add(DEFAULT_HEADER_LABEL_STYLE_CLASS);
-		headerLabel.setWrapText(true);
-		bodyBox.getChildren().add(headerLabel);
-
-		this.bodyLabel = new Label(message);
-		bodyLabel.getStyleClass().add(DEFAULT_BODY_LABEL_STYLE_CLASS);
-		bodyLabel.setWrapText(true);
-		bodyBox.getChildren().add(bodyLabel);
-
-		setCenter(bodyBox);
+		this.headerLabel.getStyleClass().add(DEFAULT_HEADER_LABEL_STYLE_CLASS);
+		this.headerLabel.setWrapText(true);
+		bodyTitleBox.getChildren().add(this.headerLabel);
+		this.completeBodyBox.getChildren().add(bodyTitleBox);
+		
+		this.bodyTextBox = new VBox();
+		this.completeBodyBox.getChildren().add(this.bodyTextBox);
+		
+		this.flowPane = new FlowPane(Orientation.VERTICAL);
+		flowPane.setPrefWrapLength(Region.USE_COMPUTED_SIZE);
+		completeBodyBox.getChildren().add(flowPane);
+		setCenter(this.completeBodyBox);
 
 		VBox rightBox = new VBox();
 		rightBox.getStyleClass().add(DEFAULT_CLOSE_CONTAINER_STYLE_CLASS);
@@ -173,13 +194,40 @@ public class MaterialNotification extends BorderPane {
 	public Image getImage() {
 		return imageIcon != null ? imageIcon.getImage() : null;
 	}
-
-	public void setMessage(String message) {
-		if(bodyLabel != null) bodyLabel.setText(message);
+	
+	public void setMessage(String... message) {
+		setMessage(Arrays.asList(message).stream().map(Label::new).toArray(Label[]::new));
 	}
-
-	public String getMessage() {
-		return bodyLabel != null ? bodyLabel.getText() : null;
+	
+	public void setMessage(Label... messageStyledLabel) {
+		if(bodyTextBox != null) {
+			if(bodyTextBox.getChildren().size() > 0) bodyTextBox.getChildren().clear();
+			Arrays.asList(messageStyledLabel).forEach(label -> {
+				label.getStyleClass().add(DEFAULT_BODY_LABEL_STYLE_CLASS);
+				label.setWrapText(true);
+				bodyTextBox.getChildren().add(label);
+			});
+		}
+	}
+	
+	public void addMessage(String message) {
+		addMessage(new Label(message));
+	}
+	
+	public void addMessage(Label label) {
+		if(bodyTextBox != null) {
+			label.getStyleClass().add(DEFAULT_BODY_LABEL_STYLE_CLASS);
+			label.setWrapText(true);
+			bodyTextBox.getChildren().add(label);
+		}
+	}
+	
+	public String[] getMessageText() {
+		return bodyTextBox.getChildren().stream().filter(e -> e instanceof Label).map(e -> (Label)e).map(e -> new String(e.getText())).toArray(String[]::new);
+	}
+	
+	public Label[] getMessageLabel() {
+		return bodyTextBox.getChildren().stream().filter(e -> e instanceof Label).map(e -> (Label)e).toArray(Label[]::new);
 	}
 
 	public void showAndWait() {

@@ -7,6 +7,7 @@ import de.derpeterson.materialdesign.css.CssResources;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
@@ -80,7 +81,10 @@ public class MaterialNotificationDemo extends Application {
 		buttonCustomNotification.setOnMouseClicked(e -> {
 			MaterialNotification materialNotification = new MaterialNotification(NotificationType.CUSTOM);
 			materialNotification.setTitle("Max Mustermann");
-			materialNotification.setMessage("Testing a custom notification\nGood or not?");
+			materialNotification.addMessage("Testing a custom notification");
+			Label label = new Label("Good or not?");
+			materialNotification.addMessage(label);
+			label.setStyle("-fx-text-fill: #757575;");
 			materialNotification.setImage(new Image(MaterialNotificationDemo.class.getResource("../resources/images/logo_gmail_48.png").toExternalForm()));
 			materialNotification.showAndDismiss(Duration.seconds(5));
 		});

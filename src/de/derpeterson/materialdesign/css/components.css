@@ -4,6 +4,7 @@
 
 .text {
     -fx-font-smoothing-type: gray;
+    -fx-font-size: 14px;
 }
 
 .label {
