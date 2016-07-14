@@ -84,7 +84,7 @@ public class MaterialNotificationDemo extends Application {
 			materialNotification.addMessage("Testing a custom notification");
 			Label label = new Label("Good or not?");
 			materialNotification.addMessage(label);
-			label.setStyle("-fx-text-fill: #757575;");
+			label.setStyle("-fx-font-family: 'Roboto Light';");
 			materialNotification.setImage(new Image(MaterialNotificationDemo.class.getResource("../resources/images/logo_gmail_48.png").toExternalForm()));
 			materialNotification.showAndDismiss(Duration.seconds(5));
 		});
