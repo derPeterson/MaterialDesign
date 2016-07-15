@@ -2,7 +2,7 @@ package de.derpeterson.materialdesign.converters;
 
 import com.sun.javafx.css.StyleConverterImpl;
 
-import de.derpeterson.materialdesign.controls.MaterialRippler.RipplerClip;
+import de.derpeterson.materialdesign.controls.MDRippler.RipplerClip;
 import javafx.css.ParsedValue;
 import javafx.css.StyleConverter;
 import javafx.scene.text.Font;

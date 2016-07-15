@@ -37,7 +37,7 @@ import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 
 @DefaultProperty(value="control")
-public class MaterialRippler extends StackPane {
+public class MDRippler extends StackPane {
 	
 	public enum RipplerClip { CIRCLE, RECTANGLE }
 	
@@ -53,11 +53,11 @@ public class MaterialRippler extends StackPane {
 
 	private BorderPane ripplePane;
 	
-	public MaterialRippler(Node control) {
+	public MDRippler(Node control) {
 		this(control, RipplerClip.RECTANGLE);
 	}
 
-	public MaterialRippler(Node control, RipplerClip ripplerClip) {
+	public MDRippler(Node control, RipplerClip ripplerClip) {
 		super();
 		setRipplerClip(ripplerClip);
 		initialize();
@@ -182,9 +182,9 @@ public class MaterialRippler extends StackPane {
 		this.getStyleClass().add(DEFAULT_STYLE_CLASS);
 	}
 	
-	private final static String DEFAULT_STYLE_CLASS = "material-rippler";
+	private final static String DEFAULT_STYLE_CLASS = "md-rippler";
 	
-	private StyleableObjectProperty<Paint> ripplerFill = new SimpleStyleableObjectProperty<Paint>(StyleableProperties.RIPPLER_FILL, MaterialRippler.this, "ripplerFill", Color.rgb(0, 200, 255));
+	private StyleableObjectProperty<Paint> ripplerFill = new SimpleStyleableObjectProperty<Paint>(StyleableProperties.RIPPLER_FILL, MDRippler.this, "ripplerFill", Color.rgb(0, 200, 255));
 	
 	public StyleableObjectProperty<Paint> ripplerFillProperty() {
 		return this.ripplerFill;
@@ -198,7 +198,7 @@ public class MaterialRippler extends StackPane {
 		this.ripplerFill.set(color);
 	}
 	
-	private StyleableObjectProperty<RipplerClip> ripplerClip = new SimpleStyleableObjectProperty<RipplerClip>(StyleableProperties.RIPPLER_CLIP, MaterialRippler.this, "ripplerClip", RipplerClip.RECTANGLE);
+	private StyleableObjectProperty<RipplerClip> ripplerClip = new SimpleStyleableObjectProperty<RipplerClip>(StyleableProperties.RIPPLER_CLIP, MDRippler.this, "ripplerClip", RipplerClip.RECTANGLE);
 	
 	public StyleableObjectProperty<RipplerClip> ripplerClipProperty() {
 		return this.ripplerClip;
@@ -213,8 +213,8 @@ public class MaterialRippler extends StackPane {
 	}
 	
 	private static class StyleableProperties {
-		private static final DefaultPropertyBasedCssMetaData<MaterialRippler, Paint> RIPPLER_FILL = CssHelper.createMetaData("-fx-rippler-fill", PaintConverter.getInstance(), "ripplerFill", Color.rgb(0, 200, 255));
-		private static final DefaultPropertyBasedCssMetaData<MaterialRippler, RipplerClip> RIPPLER_CLIP = CssHelper.createMetaData("-fx-rippler-clip", RipplerClipConverter.getInstance(), "ripplerClip", RipplerClip.RECTANGLE);
+		private static final DefaultPropertyBasedCssMetaData<MDRippler, Paint> RIPPLER_FILL = CssHelper.createMetaData("-fx-rippler-fill", PaintConverter.getInstance(), "ripplerFill", Color.rgb(0, 200, 255));
+		private static final DefaultPropertyBasedCssMetaData<MDRippler, RipplerClip> RIPPLER_CLIP = CssHelper.createMetaData("-fx-rippler-clip", RipplerClipConverter.getInstance(), "ripplerClip", RipplerClip.RECTANGLE);
 		private static final List<CssMetaData<? extends Styleable, ?>> STYLEABLES = CssHelper.createCssMetaDataList(Parent.getClassCssMetaData(), RIPPLER_FILL, RIPPLER_CLIP);	
 	}
 	

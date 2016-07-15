@@ -15,7 +15,7 @@
  * CheckBox								  *
  *****************************************/
 
-.material-check-box {
+.md-check-box {
 	-fx-font-weight: bold;
 }
 
@@ -23,7 +23,7 @@
  * Button								  *
  *****************************************/
 
-.material-button {
+.md-button {
 	-fx-font-weight: bold;
 	-fx-padding: 0.7em 0.57em;
     -fx-font-size: 14px;
@@ -32,32 +32,32 @@
 /******************************************
  * Notification							  *
  *****************************************/
-.material-notification {
+.md-notification {
  	-fx-background-color: #212121;
  	-fx-border-color: #424242;
  	-fx-border-style: solid;
  	-fx-border-width: 1;
  }
  
-.material-notification .iconContainer {
+.md-notification .iconContainer {
 	-fx-alignment: top-center;
  	-fx-padding: 12, 15, 0, 15;
 }
 
-.material-notification .closeContainer {
+.md-notification .closeContainer {
 	-fx-padding: 2 2 2 2;
 }
 
-.material-notification .headerLabel {
+.md-notification .headerLabel {
 	-fx-font-weight: bold;
 	-fx-text-fill: WHITE;
 }
 
-.material-notification .bodyLabel {
+.md-notification .bodyLabel {
 	-fx-text-fill: #9E9E9E;
 }
 
-.material-notification .closeButton {
+.md-notification .closeButton {
 	-fx-padding: 5;
 	-fx-rippler-fill: WHITE;
 }

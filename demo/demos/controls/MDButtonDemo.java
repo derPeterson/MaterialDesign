@@ -1,35 +1,19 @@
 package demos.controls;
 
-import de.derpeterson.materialdesign.controls.MaterialButton;
+import de.derpeterson.materialdesign.controls.MDButton;
 import de.derpeterson.materialdesign.css.CssResources;
-import javafx.animation.FadeTransition;
-import javafx.animation.Interpolator;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
-public class MaterialButtonDemo extends Application {
+public class MDButtonDemo extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -66,14 +50,14 @@ public class MaterialButtonDemo extends Application {
 		HBox flatComponentsBox = new HBox();	
 		flatComponentsBox.setAlignment(Pos.CENTER);
 		flatComponentsBox.setSpacing(20);
-		MaterialButton flatMaterialButton = new MaterialButton("BUTTON");
-		flatComponentsBox.getChildren().add(flatMaterialButton);
-		MaterialButton flatColoredMaterialButton = new MaterialButton("COLORED");
-		flatColoredMaterialButton.getStyleClass().add("material-button-flat-colored");
-		flatComponentsBox.getChildren().add(flatColoredMaterialButton);
-		MaterialButton flatDisabledMaterialButton = new MaterialButton("DISABLE");
-		flatDisabledMaterialButton.setDisable(true);
-		flatComponentsBox.getChildren().add(flatDisabledMaterialButton);
+		MDButton flatMDButton = new MDButton("BUTTON");
+		flatComponentsBox.getChildren().add(flatMDButton);
+		MDButton flatColoredMDButton = new MDButton("COLORED");
+		flatColoredMDButton.getStyleClass().add("md-button-flat-colored");
+		flatComponentsBox.getChildren().add(flatColoredMDButton);
+		MDButton flatDisabledMDButton = new MDButton("DISABLE");
+		flatDisabledMDButton.setDisable(true);
+		flatComponentsBox.getChildren().add(flatDisabledMDButton);
 
 		flatButtonsBox.getChildren().add(flatComponentsBox);
 		mainBox.getChildren().add(flatButtonsBox);
@@ -86,16 +70,16 @@ public class MaterialButtonDemo extends Application {
 		HBox raisedComponentsBox = new HBox();	
 		raisedComponentsBox.setAlignment(Pos.CENTER);
 		raisedComponentsBox.setSpacing(20);
-		MaterialButton raisedMaterialButton = new MaterialButton("BUTTON");
-		raisedMaterialButton.getStyleClass().add("material-button-raised");
-		raisedComponentsBox.getChildren().add(raisedMaterialButton);
-		MaterialButton raisedColoredMaterialButton = new MaterialButton("COLORED");
-		raisedColoredMaterialButton.getStyleClass().add("material-button-raised-colored");
-		raisedComponentsBox.getChildren().add(raisedColoredMaterialButton);
-		MaterialButton raisedDisabledMaterialButton = new MaterialButton("DISABLE");
-		raisedDisabledMaterialButton.getStyleClass().add("material-button-raised");
-		raisedDisabledMaterialButton.setDisable(true);
-		raisedComponentsBox.getChildren().add(raisedDisabledMaterialButton);
+		MDButton raisedMDButton = new MDButton("BUTTON");
+		raisedMDButton.getStyleClass().add("md-button-raised");
+		raisedComponentsBox.getChildren().add(raisedMDButton);
+		MDButton raisedColoredMDButton = new MDButton("COLORED");
+		raisedColoredMDButton.getStyleClass().add("md-button-raised-colored");
+		raisedComponentsBox.getChildren().add(raisedColoredMDButton);
+		MDButton raisedDisabledMDButton = new MDButton("DISABLE");
+		raisedDisabledMDButton.getStyleClass().add("md-button-raised");
+		raisedDisabledMDButton.setDisable(true);
+		raisedComponentsBox.getChildren().add(raisedDisabledMDButton);
 
 		raisedButtonsBox.getChildren().add(raisedComponentsBox);
 		mainBox.getChildren().add(raisedButtonsBox);
@@ -108,9 +92,9 @@ public class MaterialButtonDemo extends Application {
 		HBox customComponentsBox = new HBox();	
 		customComponentsBox.setAlignment(Pos.CENTER);
 		customComponentsBox.setSpacing(20);
-		MaterialButton customMaterialButton = new MaterialButton("Custom Rippler Fill");
-		customMaterialButton.getStyleClass().add("material-button-custom-rippler-fill");
-		customComponentsBox.getChildren().add(customMaterialButton);
+		MDButton customMDButton = new MDButton("Custom Rippler Fill");
+		customMDButton.getStyleClass().add("md-button-custom-rippler-fill");
+		customComponentsBox.getChildren().add(customMDButton);
 
 		customButtonsBox.getChildren().add(customComponentsBox);
 		mainBox.getChildren().add(customButtonsBox);
@@ -120,8 +104,8 @@ public class MaterialButtonDemo extends Application {
 		Scene scene = new Scene(pane, 500, 500, true, SceneAntialiasing.BALANCED);
 		scene.getStylesheets().add(CssResources.class.getResource("fonts.css").toExternalForm());
 		scene.getStylesheets().add(CssResources.class.getResource("components.css").toExternalForm());
-		scene.getStylesheets().add(MaterialButtonDemo.class.getResource("../resources/css/demo.css").toExternalForm());
-		stage.setTitle("MaterialTextField Demonstration");
+		scene.getStylesheets().add(MDButtonDemo.class.getResource("../resources/css/demo.css").toExternalForm());
+		stage.setTitle("MDButtond Demonstration");
 		stage.setResizable(true);
 		stage.setScene(scene);
 		stage.show();

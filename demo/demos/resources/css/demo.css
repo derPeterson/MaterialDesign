@@ -10,7 +10,7 @@
 	-fx-text-fill: rgb(77,102,204);
 }
 
-.material-check-box-colored {
+.md-check-box-colored {
 	-fx-text-fill: rgb(229, 57, 53);
 	-fx-unchecked-color: rgb(77,102,204);
 	-fx-checked-color: rgb(229, 57, 53);
@@ -25,23 +25,23 @@
 	-fx-text-fill: WHITE;
 }
 
-.material-button-flat-colored {
+.md-button-flat-colored {
 	-fx-background-color: rgb(77,102,204);
 	-fx-text-fill: WHITE;
 }
 
-.material-button-raised {
+.md-button-raised {
 	-fx-background-color: WHITE;
     -fx-button-type: RAISED;
 }
 
-.material-button-raised-colored {
+.md-button-raised-colored {
 	-fx-button-type: RAISED;
 	-fx-background-color: rgb(77,102,204);
     -fx-text-fill: WHITE;
 }
 
-.material-button-custom-rippler-fill {
+.md-button-custom-rippler-fill {
 	-fx-background-color: rgb(102, 153, 102);
     -fx-text-fill: WHITE;
 	-fx-button-type: RAISED;

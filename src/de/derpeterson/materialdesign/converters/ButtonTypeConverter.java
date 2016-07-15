@@ -2,7 +2,7 @@ package de.derpeterson.materialdesign.converters;
 
 import com.sun.javafx.css.StyleConverterImpl;
 
-import de.derpeterson.materialdesign.controls.MaterialButton.ButtonType;
+import de.derpeterson.materialdesign.controls.MDButton.ButtonType;
 import javafx.css.ParsedValue;
 import javafx.css.StyleConverter;
 import javafx.scene.text.Font;

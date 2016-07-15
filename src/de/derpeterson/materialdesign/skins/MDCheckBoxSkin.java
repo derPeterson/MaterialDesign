@@ -1,12 +1,10 @@
 package de.derpeterson.materialdesign.skins;
 
-import java.util.List;
-
 import com.sun.javafx.scene.control.skin.CheckBoxSkin;
 
-import de.derpeterson.materialdesign.controls.MaterialCheckBox;
-import de.derpeterson.materialdesign.controls.MaterialRippler;
-import de.derpeterson.materialdesign.controls.MaterialRippler.RipplerClip;
+import de.derpeterson.materialdesign.controls.MDCheckBox;
+import de.derpeterson.materialdesign.controls.MDRippler;
+import de.derpeterson.materialdesign.controls.MDRippler.RipplerClip;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -25,7 +23,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Line;
 import javafx.util.Duration;
 
-public class MaterialCheckBoxSkin extends CheckBoxSkin {
+public class MDCheckBoxSkin extends CheckBoxSkin {
 
 	private AnchorPane container;
 	
@@ -48,27 +46,27 @@ public class MaterialCheckBoxSkin extends CheckBoxSkin {
 	
 	private Boolean invalid = true;
 
-	private MaterialRippler rippler;
+	private MDRippler rippler;
 
-	public MaterialCheckBoxSkin(MaterialCheckBox materialCheckBox) {
-		super(materialCheckBox);
+	public MDCheckBoxSkin(MDCheckBox mdCheckBox) {
+		super(mdCheckBox);
 		
 		boxStackPane = new StackPane();
 		boxStackPane.setMinSize(20, 20);
 		boxStackPane.setPrefSize(20, 20);
 		boxStackPane.setMaxSize(20, 20);
-		boxStackPane.setBorder(new Border(new BorderStroke(materialCheckBox.getUncheckedColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+		boxStackPane.setBorder(new Border(new BorderStroke(mdCheckBox.getUncheckedColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 		
 		StackPane boxContainer = new StackPane();
 		boxContainer.getChildren().add(boxStackPane);
 		boxContainer.setPadding(new Insets(boxPadding));
-		rippler = new MaterialRippler(boxContainer, RipplerClip.CIRCLE);
-		rippler.setRipplerFill(getSkinnable().isSelected() ? materialCheckBox.getUncheckedColor() : materialCheckBox.getCheckedColor());
+		rippler = new MDRippler(boxContainer, RipplerClip.CIRCLE);
+		rippler.setRipplerFill(getSkinnable().isSelected() ? mdCheckBox.getUncheckedColor() : mdCheckBox.getCheckedColor());
 		
 		this.rightLine = new Line();
 		this.leftLine = new Line();
-		rightLine.setStroke(materialCheckBox.getCheckedColor());
-		leftLine.setStroke(materialCheckBox.getCheckedColor());
+		rightLine.setStroke(mdCheckBox.getCheckedColor());
+		leftLine.setStroke(mdCheckBox.getCheckedColor());
 		rightLine.setStrokeWidth(lineThick);
 		leftLine.setStrokeWidth(lineThick);
 		rightLine.setVisible(false);
@@ -80,8 +78,8 @@ public class MaterialCheckBoxSkin extends CheckBoxSkin {
 		container.getChildren().add(rippler);
 		AnchorPane.setRightAnchor(rippler, labelOffset);
 		
-		materialCheckBox.selectedProperty().addListener((o, oldVal, newVal) ->{
-			rippler.setRipplerFill(newVal ? materialCheckBox.getUncheckedColor() : materialCheckBox.getCheckedColor());
+		mdCheckBox.selectedProperty().addListener((o, oldVal, newVal) ->{
+			rippler.setRipplerFill(newVal ? mdCheckBox.getUncheckedColor() : mdCheckBox.getCheckedColor());
 			animation.setRate(newVal ? 1: -1);
 			animation.play();
 		});

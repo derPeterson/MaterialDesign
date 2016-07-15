@@ -1,37 +1,19 @@
 package demos.controls;
 
-import de.derpeterson.materialdesign.controls.MaterialButton;
-import de.derpeterson.materialdesign.controls.MaterialCheckBox;
+import de.derpeterson.materialdesign.controls.MDCheckBox;
 import de.derpeterson.materialdesign.css.CssResources;
-import javafx.animation.FadeTransition;
-import javafx.animation.Interpolator;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
-public class MaterialCheckBoxDemo extends Application {
+public class MDCheckBoxDemo extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -60,33 +42,33 @@ public class MaterialCheckBoxDemo extends Application {
 		javaCheckBoxBox.getChildren().add(javaComponentsBox);
 		mainBox.getChildren().add(javaCheckBoxBox);
 		
-		VBox materialCheckBoxBox = new VBox();
-		materialCheckBoxBox.setSpacing(10);
-		Text materialCheckBoxsText = new Text("Material CheckBoxes");
-		materialCheckBoxsText.getStyleClass().add("text-header");
-		materialCheckBoxBox.getChildren().add(materialCheckBoxsText);
-		HBox materialComponentsBox = new HBox();	
-		materialComponentsBox.setAlignment(Pos.CENTER);
-		materialComponentsBox.setSpacing(20);
-		MaterialCheckBox materialCheckBox = new MaterialCheckBox("CHECKBOX");
-		materialComponentsBox.getChildren().add(materialCheckBox);
-		MaterialCheckBox coloredMaterialCheckBox = new MaterialCheckBox("COLORED");
-		coloredMaterialCheckBox.getStyleClass().add("material-check-box-colored");
-		materialComponentsBox.getChildren().add(coloredMaterialCheckBox);
-		MaterialCheckBox disabledMaterialCheckBox = new MaterialCheckBox("DISABLE");
-		disabledMaterialCheckBox.setDisable(true);
-		materialComponentsBox.getChildren().add(disabledMaterialCheckBox);
+		VBox mdCheckBoxBox = new VBox();
+		mdCheckBoxBox.setSpacing(10);
+		Text mdCheckBoxsText = new Text("MD CheckBoxes");
+		mdCheckBoxsText.getStyleClass().add("text-header");
+		mdCheckBoxBox.getChildren().add(mdCheckBoxsText);
+		HBox componentsBox = new HBox();	
+		componentsBox.setAlignment(Pos.CENTER);
+		componentsBox.setSpacing(20);
+		MDCheckBox mdCheckBox = new MDCheckBox("CHECKBOX");
+		componentsBox.getChildren().add(mdCheckBox);
+		MDCheckBox coloredMDCheckBox = new MDCheckBox("COLORED");
+		coloredMDCheckBox.getStyleClass().add("md-check-box-colored");
+		componentsBox.getChildren().add(coloredMDCheckBox);
+		MDCheckBox disabledMDCheckBox = new MDCheckBox("DISABLE");
+		disabledMDCheckBox.setDisable(true);
+		componentsBox.getChildren().add(disabledMDCheckBox);
 
-		materialCheckBoxBox.getChildren().add(materialComponentsBox);
-		mainBox.getChildren().add(materialCheckBoxBox);
+		mdCheckBoxBox.getChildren().add(componentsBox);
+		mainBox.getChildren().add(mdCheckBoxBox);
 		
 		BorderPane pane = new BorderPane();
 		pane.setCenter(mainBox);
 		Scene scene = new Scene(pane, 500, 500, true, SceneAntialiasing.BALANCED);
 		scene.getStylesheets().add(CssResources.class.getResource("fonts.css").toExternalForm());
 		scene.getStylesheets().add(CssResources.class.getResource("components.css").toExternalForm());
-		scene.getStylesheets().add(MaterialCheckBoxDemo.class.getResource("../resources/css/demo.css").toExternalForm());
-		stage.setTitle("MaterialTextField Demonstration");
+		scene.getStylesheets().add(MDCheckBoxDemo.class.getResource("../resources/css/demo.css").toExternalForm());
+		stage.setTitle("MDCheckBox Demonstration");
 		stage.setResizable(true);
 		stage.setScene(scene);
 		stage.show();

@@ -7,7 +7,7 @@ import com.sun.javafx.scene.control.skin.CheckBoxSkin;
 
 import de.derpeterson.materialdesign.helper.css.CssHelper;
 import de.derpeterson.materialdesign.helper.css.DefaultPropertyBasedCssMetaData;
-import de.derpeterson.materialdesign.skins.MaterialCheckBoxSkin;
+import de.derpeterson.materialdesign.skins.MDCheckBoxSkin;
 import javafx.css.CssMetaData;
 import javafx.css.SimpleStyleableObjectProperty;
 import javafx.css.Styleable;
@@ -17,8 +17,8 @@ import javafx.scene.control.Skin;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
-public class MaterialCheckBox extends CheckBox {
-	public MaterialCheckBox() {
+public class MDCheckBox extends CheckBox {
+	public MDCheckBox() {
 		super();
 		initialize();
 	}
@@ -26,14 +26,14 @@ public class MaterialCheckBox extends CheckBox {
 	/**
 	 * {@inheritDoc}
 	 */
-	public MaterialCheckBox(String text) {
+	public MDCheckBox(String text) {
 		super(text);
 		initialize();
 	}
 
 	@Override
 	protected Skin<?> createDefaultSkin() {
-		return new MaterialCheckBoxSkin(this);
+		return new MDCheckBoxSkin(this);
 	}
 	
 	private void initialize() {
@@ -44,17 +44,17 @@ public class MaterialCheckBox extends CheckBox {
 	 * * Stylesheet Handling * *
 	 **************************************************************************/
 	/**
-	 * Initialize the style class to 'material-text-field'
+	 * Initialize the style class to 'md-check-box'
 	 * 
 	 * This is the selector class from which CSS can be used to style this
 	 * control.
 	 */
-	private static final String DEFAULT_STYLE_CLASS = "material-check-box";
+	private static final String DEFAULT_STYLE_CLASS = "md-check-box";
 	
 	/**
 	 * checkbox color proeprty when selected
 	 */
-	private StyleableObjectProperty<Paint> checkedColor = new SimpleStyleableObjectProperty<Paint>(StyleableProperties.CHECKED_COLOR, MaterialCheckBox.this, "checkedColor", Color.valueOf("#0F9D58"));
+	private StyleableObjectProperty<Paint> checkedColor = new SimpleStyleableObjectProperty<Paint>(StyleableProperties.CHECKED_COLOR, MDCheckBox.this, "checkedColor", Color.valueOf("#0F9D58"));
 
 	public Paint getCheckedColor() {
 		return checkedColor == null ? Color.valueOf("#0F9D58") : checkedColor.get();
@@ -71,7 +71,7 @@ public class MaterialCheckBox extends CheckBox {
 	/**
 	 * checkbox color proeprty when not selected
 	 */
-	private StyleableObjectProperty<Paint> uncheckedColor = new SimpleStyleableObjectProperty<Paint>(StyleableProperties.UNCHECKED_COLOR, MaterialCheckBox.this, "uncheckedColor", Color.valueOf("#5A5A5A"));
+	private StyleableObjectProperty<Paint> uncheckedColor = new SimpleStyleableObjectProperty<Paint>(StyleableProperties.UNCHECKED_COLOR, MDCheckBox.this, "uncheckedColor", Color.valueOf("#5A5A5A"));
 
 	public Paint getUncheckedColor() {
 		return uncheckedColor == null ? Color.valueOf("#5A5A5A") : uncheckedColor.get();
@@ -86,9 +86,9 @@ public class MaterialCheckBox extends CheckBox {
 	}
 	
 	private static class StyleableProperties {
-		private static final DefaultPropertyBasedCssMetaData<MaterialCheckBox, Paint> CHECKED_COLOR = CssHelper
+		private static final DefaultPropertyBasedCssMetaData<MDCheckBox, Paint> CHECKED_COLOR = CssHelper
 				.createMetaData("-fx-checked-color", PaintConverter.getInstance(), "checkedColor", Color.valueOf("#0F9D58"));
-		private static final DefaultPropertyBasedCssMetaData<MaterialCheckBox, Paint> UNCHECKED_COLOR = CssHelper
+		private static final DefaultPropertyBasedCssMetaData<MDCheckBox, Paint> UNCHECKED_COLOR = CssHelper
 				.createMetaData("-fx-unchecked-color", PaintConverter.getInstance(), "uncheckedColor", Color.valueOf("#5A5A5A"));
 		private static final List<CssMetaData<? extends Styleable, ?>> STYLEABLES = CssHelper
 				.createCssMetaDataList(CheckBox.getClassCssMetaData(), CHECKED_COLOR, UNCHECKED_COLOR);
